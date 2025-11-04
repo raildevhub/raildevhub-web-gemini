@@ -1,23 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-
-const stories = [
-  {
-    title: "RayNext: Predictive Maintenance for High-Speed Rail",
-    summary: "How we implemented an AI-powered predictive maintenance system that reduced downtime by 30% and saved millions in operational costs.",
-    link: "/story/raynext",
-  },
-  {
-    title: "RayData: Unifying Railway Data Streams",
-    summary: "The development of a centralized data platform that integrated disparate data sources, enabling real-time analytics and improved decision-making.",
-    link: "/story/raydata",
-  }
-];
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../locales';
 
 const SuccessStories: React.FC = () => {
+  const { language } = useLanguage();
+  const t = translations[language];
   const [titleRef, isTitleVisible] = useIntersectionObserver({ threshold: 0.1 });
   const [cardsRef, areCardsVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
+
+  const stories = [
+    {
+      title: t.successStories.raynext.title,
+      summary: t.successStories.raynext.summary,
+      link: "/story/raynext",
+    },
+    {
+      title: t.successStories.raydata.title,
+      summary: t.successStories.raydata.summary,
+      link: "/story/raydata",
+    }
+  ];
 
   return (
     <section id="success-stories" className="py-20 lg:py-32 bg-neutral-extralight dark:bg-neutral-dark">
@@ -26,9 +30,9 @@ const SuccessStories: React.FC = () => {
           ref={titleRef}
           className={`text-center mb-16 transition-all duration-700 ease-out ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-dark dark:text-neutral-extralight">Success Stories</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-neutral-dark dark:text-neutral-extralight">{t.successStories.title}</h2>
           <p className="mt-4 text-lg text-neutral-medium dark:text-neutral-light max-w-3xl mx-auto">
-            Discover how our solutions have created tangible value for our partners in the railway industry.
+            {t.successStories.description}
           </p>
         </div>
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -45,7 +49,7 @@ const SuccessStories: React.FC = () => {
                   {story.summary}
                 </p>
                 <span className="mt-6 inline-block font-semibold text-brand-accent">
-                  Read More &rarr;
+                  {t.successStories.readMore} &rarr;
                 </span>
               </div>
             </Link>

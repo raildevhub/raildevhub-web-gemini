@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -20,20 +21,22 @@ const ScrollToTop = () => {
 const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="bg-neutral-extralight dark:bg-neutral-dark text-neutral-dark dark:text-neutral-extralight min-h-screen font-sans antialiased">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/story/raynext" element={<RayNextStoryPage />} />
-              <Route path="/story/raydata" element={<RayDataStoryPage />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
+      <LanguageProvider>
+        <Router>
+          <ScrollToTop />
+          <div className="bg-neutral-extralight dark:bg-neutral-dark text-neutral-dark dark:text-neutral-extralight min-h-screen font-sans antialiased">
+            <Header />
+            <main>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/story/raynext" element={<RayNextStoryPage />} />
+                <Route path="/story/raydata" element={<RayDataStoryPage />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </LanguageProvider>
     </ThemeProvider>
   );
 };
