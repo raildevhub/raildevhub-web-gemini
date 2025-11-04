@@ -15,12 +15,17 @@ interface LanguageProviderProps {
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('language');
-    return (saved === 'en' || saved === 'tr') ? saved : 'en';
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const saved = localStorage.getItem('language');
+      return (saved === 'en' || saved === 'tr') ? saved : 'en';
+    }
+    return 'en';
   });
 
   useEffect(() => {
-    localStorage.setItem('language', language);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('language', language);
+    }
   }, [language]);
 
   return (
