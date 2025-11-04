@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-type Language = 'en' | 'tr';
+type Language = 'en' | 'tr' | 'fa';
 
 interface LanguageContextType {
   language: Language;
@@ -17,7 +17,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       const saved = localStorage.getItem('language');
-      return (saved === 'en' || saved === 'tr') ? saved : 'en';
+      return (saved === 'en' || saved === 'tr' || saved === 'fa') ? saved : 'en';
     }
     return 'en';
   });
