@@ -9,6 +9,8 @@ const LanguageToggle: React.FC = () => {
       setLanguage('tr');
     } else if (language === 'tr') {
       setLanguage('fa');
+    } else if (language === 'fa') {
+      setLanguage('zh');
     } else {
       setLanguage('en');
     }
