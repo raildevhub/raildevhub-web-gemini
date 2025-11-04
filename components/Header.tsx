@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
-
-const NAV_LINKS = [
-  { name: 'About', href: '#about' },
-  { name: 'Expertise', href: '#expertise' },
-  { name: 'Success Stories', href: '#success-stories' },
-  { name: 'Contact', href: '#contact' },
-];
+import LanguageToggle from './LanguageToggle';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../locales';
 
 const Header: React.FC = () => {
+  const { language } = useLanguage();
+  const t = translations[language];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+
+  const NAV_LINKS = [
+    { name: t.header.about, href: '#about' },
+    { name: t.header.expertise, href: '#expertise' },
+    { name: t.header.successStories, href: '#success-stories' },
+    { name: t.header.contact, href: '#contact' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,12 +60,14 @@ const Header: React.FC = () => {
                 {link.name}
             </a>
           ))}
-          {!isHomePage && <RouterLink to="/" className="text-neutral-medium dark:text-neutral-light hover:text-brand-accent dark:hover:text-brand-accent transition-colors duration-300 font-medium">Home</RouterLink>}
+          {!isHomePage && <RouterLink to="/" className="text-neutral-medium dark:text-neutral-light hover:text-brand-accent dark:hover:text-brand-accent transition-colors duration-300 font-medium">{t.header.home}</RouterLink>}
+          <LanguageToggle />
           <ThemeToggle />
         </nav>
 
         {/* Mobile Nav Trigger */}
         <div className="md:hidden flex items-center">
+            <LanguageToggle />
             <ThemeToggle />
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="ml-4 text-neutral-dark dark:text-neutral-extralight" aria-label="Open menu">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -83,7 +90,7 @@ const Header: React.FC = () => {
                         {link.name}
                     </a>
                   ))}
-                  {!isHomePage && <RouterLink to="/" onClick={() => setIsMenuOpen(false)} className="text-neutral-medium dark:text-neutral-light hover:text-brand-accent dark:hover:text-brand-accent transition-colors duration-300 font-medium text-lg">Home</RouterLink>}
+                  {!isHomePage && <RouterLink to="/" onClick={() => setIsMenuOpen(false)} className="text-neutral-medium dark:text-neutral-light hover:text-brand-accent dark:hover:text-brand-accent transition-colors duration-300 font-medium text-lg">{t.header.home}</RouterLink>}
               </nav>
           </div>
       )}

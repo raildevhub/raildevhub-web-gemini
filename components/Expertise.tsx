@@ -1,9 +1,9 @@
 import React from 'react';
-// Fix: This error is resolved by creating the constants.ts file and exporting the required constants.
-import { AI_EXPERTISE, SOFTWARE_EXPERTISE } from '../constants';
 import { BrainIcon } from './icons/BrainIcon';
 import { CodeIcon } from './icons/CodeIcon';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../locales';
 
 interface ExpertiseCardProps {
   title: string;
@@ -33,6 +33,8 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({ title, items, icon, isVis
 );
 
 const Expertise: React.FC = () => {
+  const { language } = useLanguage();
+  const t = translations[language];
   const [titleRef, isTitleVisible] = useIntersectionObserver({ threshold: 0.1 });
   const [cardsRef, areCardsVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true });
 
@@ -43,14 +45,14 @@ const Expertise: React.FC = () => {
           ref={titleRef} 
           className={`text-center mb-16 transition-all duration-700 ease-out ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-dark dark:text-neutral-extralight">Our Core Expertise</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-neutral-dark dark:text-neutral-extralight">{t.expertise.title}</h2>
           <p className="mt-4 text-lg text-neutral-medium dark:text-neutral-light max-w-3xl mx-auto">
-            We possess a dual expertise in state-of-the-art AI and robust software engineering to deliver comprehensive solutions.
+            {t.expertise.description}
           </p>
         </div>
         <div ref={cardsRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <ExpertiseCard title="Artificial Intelligence" items={AI_EXPERTISE} icon={<BrainIcon />} isVisible={areCardsVisible} />
-          <ExpertiseCard title="Software Engineering" items={SOFTWARE_EXPERTISE} icon={<CodeIcon />} isVisible={areCardsVisible} />
+          <ExpertiseCard title={t.expertise.ai.title} items={t.expertise.ai.skills} icon={<BrainIcon />} isVisible={areCardsVisible} />
+          <ExpertiseCard title={t.expertise.software.title} items={t.expertise.software.skills} icon={<CodeIcon />} isVisible={areCardsVisible} />
         </div>
       </div>
     </section>
